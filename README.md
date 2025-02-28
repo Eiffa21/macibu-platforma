@@ -1,2 +1,2 @@
-# m-c-bu-platforma
+# macibu-platforma
 Kursa darbs
