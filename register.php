@@ -1,21 +1,18 @@
 <?php
 // register.php
-require 'config.php'; // Make sure your DB connection is set up
+require 'config.php';
 
 if (isset($_POST['register'])) {
-    // Retrieve and sanitize inputs
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Basic validation
     if ($password !== $confirm_password) {
         echo "Passwords do not match!";
         exit;
     }
-    
-    // Check if user already exists (optional)
+
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
@@ -23,14 +20,11 @@ if (isset($_POST['register'])) {
         exit;
     }
     
-    // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
-    // Insert into the database
     $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     if ($stmt->execute([$username, $email, $hashed_password])) {
         echo "Registration successful!";
-        // Optionally redirect to login page
         header("Location: login.php");
     } else {
         echo "An error occurred. Please try again.";
