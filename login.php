@@ -7,18 +7,15 @@ if (isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    // Fetch the user from the database
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
     if ($user) {
-        // Verify the password
         if (password_verify($password, $user['password'])) {
-            // Password is correct: start a session and store user info
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            header("Location: dashboard.php"); // Redirect to a protected page
+            header("Location: dashboard.php");
             exit;
         } else {
             echo "Invalid credentials.";
