@@ -1,7 +1,2 @@
 /uploads
 /vendor
-config.php
-*.log
-config.php
-.env
-test_connection.php
